@@ -17,6 +17,7 @@ export class Bank {
 }
 
 export class Transaction {
+  id: string
   bankId: number
   payee: string
   amount: number
@@ -27,8 +28,8 @@ export class Transaction {
   category?: Category | null
   tags?: string[] | null
   memo?: string | null
-  id() {
-    return `${this.bankId} ${this.fitid}`
+  gen_id() {
+    return `${this.bankId}/${this.fitid}`
   }
   constructor(
     bankId: typeof Transaction.prototype.bankId,
@@ -54,6 +55,8 @@ export class Transaction {
     this.category = category
     this.tags = tags
     this.memo = memo
+
+    this.id = this.gen_id()
   }
 }
 
