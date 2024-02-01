@@ -24,7 +24,7 @@ test(`${parseSTMTTRN.name} constructor`, () => {
       payee: 'KROGER ATLANTA GA',
       amount: -38.62,
       date: [2024, 1, 27],
-      fitid: 320240280180000000,
+      fitid: '320240280180000000',
       memo: 'MEMO - KROGER ATLANTA GA',
     })
   )

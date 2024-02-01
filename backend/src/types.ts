@@ -24,7 +24,7 @@ export class Transaction {
   dateYear: number
   dateMonth: number
   dateDay: number
-  fitid: number // financial institution transaction id
+  fitid: string // financial institution transaction id
   category?: Category | null
   tags?: string[] | null
   memo?: string | null
@@ -139,7 +139,7 @@ export function parseSTMTTRN(
     payee: stmtTrn.match(NAME_RE)![1],
     amount: parseFloat(stmtTrn.match(TRNAMT_RE)![1]),
     date: parseQfxDt(stmtTrn.match(DTPOSTED_RE)![1]),
-    fitid: parseInt(stmtTrn.match(FITID_RE)![1]),
+    fitid: stmtTrn.match(FITID_RE)![1],
     memo,
   })
 }
