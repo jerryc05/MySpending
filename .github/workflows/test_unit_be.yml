@@ -1,4 +1,4 @@
-name: Frontend Unit Test
+name: Backend Unit Test
 
 on:
   push:
@@ -16,11 +16,11 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./app
+        working-directory: ./backend
 
     steps:
       - name: Setup repo
-        uses: actions/checkout@v3 
+        uses: actions/checkout@v3
 
       - uses: oven-sh/setup-bun@v1
         with:
