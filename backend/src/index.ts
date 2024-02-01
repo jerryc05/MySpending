@@ -1,5 +1,4 @@
 import { argv } from 'process'
-import { XMLParser } from 'fast-xml-parser'
 import type { QfxStmtTrn } from '@/types'
 import { Transaction, parseQfxDt } from '@/types'
 
@@ -7,18 +6,23 @@ const filename = argv[2]
 const file = Bun.file(filename)
 const content = await file.text()
 
-const banktranlistRe = new RegExp('<BANKTRANLIST>.+</BANKTRANLIST>', 's')
-const banktranlistMatch_ = content.match(banktranlistRe)
+const STMTTRN_RE = /<STMTTRN>.+?<\/STMTTRN>/gs
+const stmtTrnMatches = content.match(STMTTRN_RE)
 
-if (!banktranlistMatch_) {
-  throw new Error('No BANKTRANLIST found!')
+if (stmtTrnMatches) {
+  const trns = stmtTrnMatches.map(stmtTrn => {
+    const NAME_RE = /<NAME>(.+?)(?:<\/NAME>)?\s*$/m
+    const TRNAMT_RE = /<TRNAMT>(.+?)(?:<\/TRNAMT>)?\s*$/m
+    const DTPOSTED_RE = /<DTPOSTED>(.+?)(?:<\/DTPOSTED>)?\s*$/m
+    const FITID_RE = /<FITID>(.+?)(?:<\/FITID>)?\s*$/m
+
+    return new Transaction(
+      0, //todo
+      stmtTrn.match(NAME_RE)![1],
+      parseFloat(stmtTrn.match(TRNAMT_RE)![1]),
+      parseQfxDt(stmtTrn.match(DTPOSTED_RE)![1]),
+      parseInt(stmtTrn.match(FITID_RE)![1])
+    )
+  })
+  console.dir(trns)
 }
-const banktranlistMatch = banktranlistMatch_[0]
-
-const parser = new XMLParser()
-const stmtTrnObjList: QfxStmtTrn[] =
-  parser.parse(banktranlistMatch).BANKTRANLIST.STMTTRN
-const stmtTrnList = stmtTrnObjList.map(
-  x => new Transaction(0, x.NAME, x.TRNAMT, parseQfxDt(x.DTPOSTED), x.FITID)
-)
-console.dir(stmtTrnList)
