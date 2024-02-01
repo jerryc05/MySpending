@@ -1,8 +1,8 @@
 import { expect, test } from 'bun:test'
+import { Transaction } from '@/types'
+import { parseSTMTTRN } from '@/utils'
 
-import { Transaction, parseSTMTTRN } from '@/types'
-
-const getTrans = (bankId: typeof Transaction.prototype.bankId) =>
+const getTrans1 = (bankId: typeof Transaction.prototype.bankId) =>
   parseSTMTTRN(
     `<STMTTRN>
   <TRNTYPE>DEBIT</TRNTYPE>
@@ -16,9 +16,9 @@ const getTrans = (bankId: typeof Transaction.prototype.bankId) =>
     bankId
   )
 
-test(`${parseSTMTTRN.name} constructor`, () => {
+test(`${parseSTMTTRN.name} 1 constructor`, () => {
   const bankId = Math.floor(Math.random() * 1000)
-  expect(getTrans(bankId)).toEqual(
+  expect(getTrans1(bankId)).toEqual(
     new Transaction({
       bankId,
       payee: 'KROGER ATLANTA GA',
@@ -30,9 +30,9 @@ test(`${parseSTMTTRN.name} constructor`, () => {
   )
 })
 
-test(`${parseSTMTTRN.name} date`, () => {
+test(`${parseSTMTTRN.name} 1 date`, () => {
   const bankId = Math.floor(Math.random() * 1000)
-  expect(getTrans(bankId).dateYear === 2024).toBeTrue()
-  expect(getTrans(bankId).dateMonth === 1).toBeTrue()
-  expect(getTrans(bankId).dateDay === 27).toBeTrue()
+  expect(getTrans1(bankId).dateYear).toBe(2024)
+  expect(getTrans1(bankId).dateMonth).toBe(1)
+  expect(getTrans1(bankId).dateDay).toBe(27)
 })

@@ -1,5 +1,5 @@
 import { argv } from 'process'
-import { parseSTMTTRN } from '@/types'
+import { parseSTMTTRN } from '@/utils'
 
 const filename = argv[2]
 const file = Bun.file(filename)
