@@ -1,5 +1,5 @@
 export class Bank {
-  id: number
+  id: Readonly<number>
   name: string
   currency: 'USD' | 'CNY'
   balance: number
@@ -17,7 +17,7 @@ export class Bank {
 }
 
 export class Transaction {
-  id: string
+  id: Readonly<string>
   bankId: number
   payee: string
   amount: number
