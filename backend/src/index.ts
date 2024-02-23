@@ -1,6 +1,6 @@
 import { argv } from 'process'
 import { parseSTMTTRN } from '@/utils'
-import {encode} from 'cbor-x'
+import { encode } from 'cbor-x'
 
 const filename = argv[2]
 const file = Bun.file(filename)
